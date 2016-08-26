@@ -27,7 +27,13 @@
  * @license   http://thomas.ernest.fr/developement/php_cs/licence GNU General Public License
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_Sniff
+
+namespace CodeIgniter\Sniffs\Strings;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class VariableUsageSniff implements Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -49,13 +55,13 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being scanned.
+     * @param File $phpcsFile The current file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         $string = $tokens[$stackPtr]['content'];
@@ -73,7 +79,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
     /**
      * Processes this test, when the token encountered is a double-quoted string.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile   The current file being scanned.
+     * @param File $phpcsFile   The current file being scanned.
      * @param int                  $stackPtr    The position of the current token
      *                                          in the stack passed in $tokens.
      * @param string               $dblQtString The double-quoted string content,
@@ -81,7 +87,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    protected function processDoubleQuotedString (PHP_CodeSniffer_File $phpcsFile, $stackPtr, $dblQtString)
+    protected function processDoubleQuotedString (File $phpcsFile, $stackPtr, $dblQtString)
     {
         $variableFound = FALSE;
         $strTokens = token_get_all('<?php '.$dblQtString);
@@ -120,7 +126,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
     /**
      * Processes this test, when the token encountered is a single-quoted string.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile   The current file being scanned.
+     * @param File $phpcsFile   The current file being scanned.
      * @param int                  $stackPtr    The position of the current token
      *                                          in the stack passed in $tokens.
      * @param string               $sglQtString The single-quoted string content,
@@ -128,7 +134,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    protected function processSingleQuotedString (PHP_CodeSniffer_File $phpcsFile, $stackPtr, $sglQtString)
+    protected function processSingleQuotedString (File $phpcsFile, $stackPtr, $sglQtString)
     {
         $variableFound = FALSE;
         $strTokens = token_get_all('<?php '.$sglQtString);
@@ -149,7 +155,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
     /**
      * Grammar rule to parse the use of a variable. Please notice that it
      * doesn't manage the leading $.
-     * 
+     *
      * _parseVariable ::= <variable>
      *     | <variable>_parseObjectAttribute()
      *     | <variable>_parseArrayIndexes()
@@ -193,7 +199,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
 
     /**
      * Grammar rule to parse the use of an object attribute.
-     * 
+     *
      * _parseObjectAttribute ::= -><attribute>
      *     | -><attribute>_parseObjectAttribute()
      *     | -><attribute>_parseArrayIndexes()
@@ -241,7 +247,7 @@ class CodeIgniter_Sniffs_Strings_VariableUsageSniff implements PHP_CodeSniffer_S
 
     /**
      * Grammar rule to parse the use of one or more array indexes.
-     * 
+     *
      * _parseArrayIndexes ::= _parseArrayIndex()+
      *
      * @exception Exception raised if $strTokens starting from $strPtr

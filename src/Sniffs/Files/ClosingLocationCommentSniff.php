@@ -42,7 +42,14 @@ if (class_exists('CodeIgniter_Sniffs_Files_AbstractClosingCommentSniff', true) =
  * @license   http://thomas.ernest.fr/developement/php_cs/licence GNU General Public License
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class CodeIgniter_Sniffs_Files_ClosingLocationCommentSniff extends CodeIgniter_Sniffs_Files_AbstractClosingCommentSniff
+
+namespace CodeIgniter\Sniffs\Files;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Common;
+
+class ClosingLocationCommentSniff extends AbstractClosingCommentSniff
 {
     public $applicationRoot = '/application/';
 
@@ -63,13 +70,13 @@ class CodeIgniter_Sniffs_Files_ClosingLocationCommentSniff extends CodeIgniter_S
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being scanned.
+     * @param File $phpcsFile The current file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // We are only interested if this is the first open tag.
         if ($stackPtr !== 0) {
@@ -170,7 +177,7 @@ class CodeIgniter_Sniffs_Files_ClosingLocationCommentSniff extends CodeIgniter_S
      */
     private function _getAppRoot()
     {
-        $appRoot = PHP_CodeSniffer::getConfigData('ci_application_root');
+        $appRoot = Common::getConfigData('ci_application_root');
         if (null === $appRoot) {
             $appRoot = $this->applicationRoot;
         }

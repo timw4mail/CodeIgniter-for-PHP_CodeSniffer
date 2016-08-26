@@ -32,7 +32,13 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false
  * @license   http://thomas.ernest.fr/developement/php_cs/licence GNU General Public License
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class CodeIgniter_Sniffs_NamingConventions_ConstructorNameSniff extends PHP_CodeSniffer_Standards_AbstractScopeSniff
+
+namespace CodeIgniter\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Sniffs\AbstractScopeSniff;
+use PHP_CodeSniffer\Files\File;
+
+class ConstructorNameSniff extends AbstractScopeSniff
 {
 
 
@@ -54,7 +60,7 @@ class CodeIgniter_Sniffs_NamingConventions_ConstructorNameSniff extends PHP_Code
     /**
      * Processes this test when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being scanned.
+     * @param File $phpcsFile The current file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      * @param int                  $currScope A pointer to the start of the scope.
@@ -62,7 +68,7 @@ class CodeIgniter_Sniffs_NamingConventions_ConstructorNameSniff extends PHP_Code
      * @return void
      */
     protected function processTokenWithinScope(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         $currScope
     ) {

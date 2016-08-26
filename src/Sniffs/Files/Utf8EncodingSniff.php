@@ -24,7 +24,13 @@
  * @license   http://thomas.ernest.fr/developement/php_cs/licence GNU General Public License
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Sniff
+
+namespace CodeIgniter\Sniffs\Files;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class Utf8EncodingSniff implements Sniff
 {
 
     /**
@@ -44,13 +50,13 @@ class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Snif
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being scanned.
+     * @param File $phpcsFile The current file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // We are only interested if this is the first open tag.
         if ($stackPtr !== 0) {
@@ -160,7 +166,7 @@ class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Snif
         }
         return true;
     }//_checkUtf8Rfc3629()
-	 
+
 	 /**
      * Splits a string to chunks of given size
 	 * This helps to avoid segmentation fault errors when large text is given
@@ -173,7 +179,7 @@ class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Snif
      *
      * @see http://php.net/manual/en/function.chunk-split.php
      */
-	private static function mb_chunk_split($str, $len, $glue) 
+	private static function mb_chunk_split($str, $len, $glue)
 	{
 		if (empty($str)) return false;
 		$array = self::mbStringToArray ($str);
@@ -192,13 +198,13 @@ class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Snif
 	/**
      * Supporting function for mb_chunk_split
      *
-     * @param string $str   
+     * @param string $str
 	 *
-     * @return array 
+     * @return array
      *
      * @see http://php.net/manual/en/function.chunk-split.php
      */
-	private static function mbStringToArray ($str) 
+	private static function mbStringToArray ($str)
 	{
 		if (empty($str)) return false;
 		$len = mb_strlen($str);
@@ -209,7 +215,7 @@ class CodeIgniter_Sniffs_Files_Utf8EncodingSniff implements PHP_CodeSniffer_Snif
 		return $array;
 	}
 
-	
+
 
 }//end class
 
